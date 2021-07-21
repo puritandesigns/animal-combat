@@ -6,7 +6,12 @@ namespace Animal_Combat
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Combatant human = new Human();
+            Combatant shark = new Shark();
+
+            human.Attack(shark);
+            shark.Attack(human);
+
         }
     }
 }
