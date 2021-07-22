@@ -9,8 +9,12 @@ namespace Animal_Combat
             Combatant human = new Human();
             Combatant shark = new Shark();
 
-            human.Attack(shark);
-            shark.Attack(human);
+            while(!human.IsDead && !shark.IsDead)
+            {
+                human.Attack(shark);
+                shark.Attack(human);
+            }
+
 
         }
     }

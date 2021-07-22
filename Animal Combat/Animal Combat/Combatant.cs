@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace Animal_Combat
 {
@@ -12,22 +13,42 @@ namespace Animal_Combat
         protected abstract int Speed { get; }
         protected abstract int MaxDamage { get; set; }
         public bool IsDead => Health <= 0;
-        protected AttackType CurrentAttack { get; set; }
+        public AttackType CurrentAttack { get; set; }
         protected abstract AttackType[] AttacksAllowed { get; }
+        private int criticalStrike;
+
 
         public void Attack(Combatant combatant)
         {
             ChooseAttackType();
             SetMaxDamage();
-            Console.WriteLine($"{this.GetType().Name} attacks with {CurrentAttack}.");
-            CriticalStrike();
-            combatant.LoseHealth(MaxDamage);
+            Console.Write($"{this.GetType().Name} attacks with {CurrentAttack}");
+            printDotAnimation();
+            combatant.LoseHealth(MaxDamage + CriticalStrike());
         }
 
-        //TODO: Roll for critical strike
-        public void CriticalStrike()
+
+        //Set max damage based on attack type
+        public void SetMaxDamage()
         {
-            
+            switch (CurrentAttack)
+            {
+                case AttackType.Fist:
+                    MaxDamage = 8;
+                    break;
+                case AttackType.Claw:
+                    MaxDamage = 10;
+                    break;
+                case AttackType.Bite:
+                    MaxDamage = 10;
+                    break;
+                case AttackType.Kick:
+                    MaxDamage = 6;
+                    break;
+                case AttackType.Grab:
+                    MaxDamage = 5;
+                    break;
+            }
         }
 
         //Randomly choosing from allowed attacks
@@ -36,31 +57,15 @@ namespace Animal_Combat
             CurrentAttack = AttacksAllowed[Random.RandomNumber(AttacksAllowed.Length)];
         }
 
-        //Set max damage based on attack type
-        public void SetMaxDamage()
+
+        //TODO: set dodge based on speed
+        public void Dodge()
         {
-            switch (CurrentAttack)
-            {
-                case AttackType.Fist:
-                    MaxDamage = 5;
-                    break;
-                case AttackType.Claw:
-                    MaxDamage = 6;
-                    break;
-                case AttackType.Bite:
-                    MaxDamage = 7;
-                    break;
-                case AttackType.Kick:
-                    MaxDamage = 5;
-                    break;
-                case AttackType.Grab:
-                    MaxDamage = 3;
-                    break;
-            }
+
         }
 
-        //TODO: set movement based on speed
-        public void Move()
+        //TODO: set defend based on defense
+        public void Defend()
         {
 
         }
@@ -72,8 +77,34 @@ namespace Animal_Combat
             {
                 totalDamage = 0;
             }
+
             Health = Health - totalDamage;
             Console.WriteLine($"{this.GetType().Name} lost {totalDamage} health.\n");
+
+            if(IsDead)
+            {
+                Die();
+            }
+        }
+
+        public void Die()
+        {
+            Console.WriteLine($"{this.GetType().Name} has died.");
+        }
+
+        //Roll for critical strike
+        public int CriticalStrike()
+        {
+            criticalStrike = Random.RandomNumber(10);
+
+            if (criticalStrike > 5)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Critical strike!");
+                Console.ResetColor();
+                return criticalStrike;
+            }
+            else return 0;
         }
 
         public enum AttackType
@@ -83,6 +114,16 @@ namespace Animal_Combat
             Bite,
             Kick,
             Grab
+        }
+
+        public void printDotAnimation(int timer = 10)
+        {
+            for (var x = 0; x < timer; x++)
+            {
+                System.Console.Write(".");
+                Thread.Sleep(100);
+            }
+            Console.WriteLine();
         }
     }
 }

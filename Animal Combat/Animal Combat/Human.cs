@@ -6,7 +6,7 @@ namespace Animal_Combat
 {
     class Human : Combatant
     {
-        protected override int Health { get; set; } = 15;
+        protected override int Health { get; set; } = 25;
         protected override int Strength { get; } = 5;
         protected override int Defense { get; } = 3;
         protected override int Speed { get; } = 4;
