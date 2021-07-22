@@ -10,36 +10,51 @@ namespace Animal_Combat
         protected abstract int Strength { get; }
         protected abstract int Defense { get; }
         protected abstract int Speed { get; }
-        protected abstract int MaxDamage { get; }
-        protected abstract AttackType attackType { get; set; }
+        protected abstract int MaxDamage { get; set; }
+        public bool IsDead => Health <= 0;
+        protected AttackType CurrentAttack { get; set; }
+        protected abstract AttackType[] AttacksAllowed { get; }
 
         public void Attack(Combatant combatant)
         {
-            Console.WriteLine($"{this} attacks with {attackType}.");
+            ChooseAttackType();
+            SetMaxDamage();
+            Console.WriteLine($"{this.GetType().Name} attacks with {CurrentAttack}.");
             CriticalStrike();
             combatant.LoseHealth(MaxDamage);
         }
 
-        //Roll for critical strike
-        private void CriticalStrike()
+        //TODO: Roll for critical strike
+        public void CriticalStrike()
         {
-            throw new NotImplementedException();
+            
         }
 
-        //TODO: set max damage based on attack type
+        //Randomly choosing from allowed attacks
+        public void ChooseAttackType()
+        {
+            CurrentAttack = AttacksAllowed[Random.RandomNumber(AttacksAllowed.Length)];
+        }
+
+        //Set max damage based on attack type
         public void SetMaxDamage()
         {
-            switch (attackType)
+            switch (CurrentAttack)
             {
                 case AttackType.Fist:
+                    MaxDamage = 5;
                     break;
                 case AttackType.Claw:
+                    MaxDamage = 6;
                     break;
                 case AttackType.Bite:
+                    MaxDamage = 7;
                     break;
                 case AttackType.Kick:
+                    MaxDamage = 5;
                     break;
                 case AttackType.Grab:
+                    MaxDamage = 3;
                     break;
             }
         }
@@ -58,7 +73,7 @@ namespace Animal_Combat
                 totalDamage = 0;
             }
             Health = Health - totalDamage;
-            Console.WriteLine($"{this} lost {totalDamage} health.");
+            Console.WriteLine($"{this.GetType().Name} lost {totalDamage} health.\n");
         }
 
         public enum AttackType
