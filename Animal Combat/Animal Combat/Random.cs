@@ -8,9 +8,9 @@ namespace Animal_Combat
     {
         private static System.Random _random = new System.Random();
 
-        public static int RandomNumber(int num)
+        public static int RandomNumber(int num1, int num2)
         {
-            int rInt = _random.Next(0, num);
+            int rInt = _random.Next(num1, num2);
             return rInt;
         }
     }

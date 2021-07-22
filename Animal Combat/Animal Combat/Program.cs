@@ -6,8 +6,9 @@ namespace Animal_Combat
     {
         static void Main(string[] args)
         {
-            Combatant human = new Human();
-            Combatant shark = new Shark();
+            Arena arena = new Arena();
+            ICombat human = new Human(arena);
+            ICombat shark = new Shark(arena);
 
             while(!human.IsDead && !shark.IsDead)
             {

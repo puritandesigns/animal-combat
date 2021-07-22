@@ -9,9 +9,33 @@ namespace Animal_Combat
         protected override int Health { get; set; } = 30;
         protected override int Strength { get; } = 6;
         protected override int Defense { get; } = 2;
-        protected override int Speed { get; } = 8;
-        protected override int MaxDamage { get; set; }
-
         protected override AttackType[] AttacksAllowed { get; } = { AttackType.Bite};
+
+        public Shark(Arena _arena) : base(_arena)
+        {
+
+        }
+
+        //Is There a better way to do this??
+        public override void SetSpeed(Arena arena)
+        {
+            switch(arena.CurrentArena)
+            {
+                case Arena.ArenaType.Forest:
+                    Speed -= 2;
+                    break;
+                case Arena.ArenaType.Ocean:
+                    Speed += 3;
+                    break;
+                case Arena.ArenaType.Grasslands:
+                    break;
+                case Arena.ArenaType.Swamp:
+                    Speed += 1;
+                    break;
+                case Arena.ArenaType.Mountain:
+                    Speed -= 3;
+                    break;
+            }
+        }
     }
 }

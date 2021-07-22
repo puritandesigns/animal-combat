@@ -5,26 +5,35 @@ using System.Threading;
 
 namespace Animal_Combat
 {
-    abstract class Combatant
+    abstract class Combatant : ICombat
     {
         protected abstract int Health { get; set; }
         protected abstract int Strength { get; }
         protected abstract int Defense { get; }
-        protected abstract int Speed { get; }
-        protected abstract int MaxDamage { get; set; }
+        protected virtual int Speed { get; set; } = 5;
+        protected int MaxDamage { get; set; }
         public bool IsDead => Health <= 0;
         public AttackType CurrentAttack { get; set; }
         protected abstract AttackType[] AttacksAllowed { get; }
-        private int criticalStrike;
 
+        private static int criticalStrike;
+        private static int totalDamage;
 
-        public void Attack(Combatant combatant)
+        protected Arena arena;
+
+        public Combatant(Arena _arena)
+        {
+            arena = _arena;
+        }
+
+        public void Attack(ICombat combatant)
         {
             ChooseAttackType();
             SetMaxDamage();
             Console.Write($"{this.GetType().Name} attacks with {CurrentAttack}");
             printDotAnimation();
-            combatant.LoseHealth(MaxDamage + CriticalStrike());
+
+            combatant.TakeDamage(MaxDamage + CriticalStrike());
         }
 
 
@@ -34,45 +43,62 @@ namespace Animal_Combat
             switch (CurrentAttack)
             {
                 case AttackType.Fist:
-                    MaxDamage = 8;
+                    MaxDamage = 11;
                     break;
                 case AttackType.Claw:
-                    MaxDamage = 10;
+                    MaxDamage = 13;
                     break;
                 case AttackType.Bite:
-                    MaxDamage = 10;
+                    MaxDamage = 13;
                     break;
                 case AttackType.Kick:
-                    MaxDamage = 6;
+                    MaxDamage = 9;
                     break;
                 case AttackType.Grab:
-                    MaxDamage = 5;
+                    MaxDamage = 8;
                     break;
             }
         }
 
+        public abstract void SetSpeed(Arena arena);
+
         //Randomly choosing from allowed attacks
         public void ChooseAttackType()
         {
-            CurrentAttack = AttacksAllowed[Random.RandomNumber(AttacksAllowed.Length)];
+            CurrentAttack = AttacksAllowed[Random.RandomNumber(0, AttacksAllowed.Length)];
         }
 
 
-        //TODO: set dodge based on speed
-        public void Dodge()
+        //Set dodge based on speed
+        public bool Dodge()
         {
-
+            if(Random.RandomNumber(0, Speed) > 2)
+            {
+                Console.WriteLine($"{this.GetType().Name} dodged attack!\n");
+                return true;
+            }
+            return false;
         }
 
-        //TODO: set defend based on defense
-        public void Defend()
+        //Set defend based on defense
+        public int Defend()
         {
-
+            return Random.RandomNumber(Defense - Speed, Defense);
         }
 
-        public void LoseHealth(int damage)
+        public void AttackEffectivenes(int damage)
         {
-            int totalDamage = Random.RandomNumber(damage) - Defense;
+            totalDamage = Random.RandomNumber(Speed, damage) - Defend();
+        }
+
+        public void TakeDamage(int damage)
+        {
+            if (Dodge())
+            {
+                return;
+            }
+
+            AttackEffectivenes(damage);
             if(totalDamage < 0)
             {
                 totalDamage = 0;
@@ -95,7 +121,7 @@ namespace Animal_Combat
         //Roll for critical strike
         public int CriticalStrike()
         {
-            criticalStrike = Random.RandomNumber(10);
+            criticalStrike = Random.RandomNumber(0, 10);
 
             if (criticalStrike > 5)
             {
