@@ -10,7 +10,7 @@ namespace Animal_Combat
         protected abstract int Health { get; set; }
         protected abstract int Strength { get; }
         protected abstract int Defense { get; }
-        protected virtual int Speed { get; set; } = 5;
+        protected int Speed { get; set; }
         protected int MaxDamage { get; set; }
         public bool IsDead => Health <= 0;
         public AttackType CurrentAttack { get; set; }
@@ -25,40 +25,18 @@ namespace Animal_Combat
         public Combatant(Arena _arena)
         {
             arena = _arena;
+            //TODO: Set speed with static method in CombCalcs
         }
 
         public void Attack(ICombat combatant)
         {
             ChooseAttackType();
-            SetMaxDamage();
+            MaxDamage = CombCalcs.SetMaxDamage(CurrentAttack.ToString());
+            criticalStrike = CombCalcs.CriticalStrike();
             Console.Write($"{this.GetType().Name} attacks with {CurrentAttack}");
             printDotAnimation();
 
-            combatant.TakeDamage(MaxDamage + CriticalStrike());
-        }
-
-
-        //Set max damage based on attack type
-        public void SetMaxDamage()
-        {
-            switch (CurrentAttack)
-            {
-                case AttackType.Fist:
-                    MaxDamage = 11;
-                    break;
-                case AttackType.Claw:
-                    MaxDamage = 13;
-                    break;
-                case AttackType.Bite:
-                    MaxDamage = 13;
-                    break;
-                case AttackType.Kick:
-                    MaxDamage = 9;
-                    break;
-                case AttackType.Grab:
-                    MaxDamage = 8;
-                    break;
-            }
+            combatant.TakeDamage(MaxDamage + criticalStrike);
         }
 
         public abstract void SetSpeed(Arena arena);
@@ -69,37 +47,15 @@ namespace Animal_Combat
             CurrentAttack = AttacksAllowed[Random.RandomNumber(0, AttacksAllowed.Length)];
         }
 
-
-        //Set dodge based on speed
-        public bool Dodge()
-        {
-            if(Random.RandomNumber(0, Speed) > 2)
-            {
-                Console.WriteLine($"{this.GetType().Name} dodged attack!\n");
-                return true;
-            }
-            return false;
-        }
-
-        //Set defend based on defense
-        public int Defend()
-        {
-            return Random.RandomNumber(Defense - Speed, Defense);
-        }
-
-        public void AttackEffectivenes(int damage)
-        {
-            totalDamage = Random.RandomNumber(Speed, damage) - Defend();
-        }
-
         public void TakeDamage(int damage)
         {
-            if (Dodge())
+            if (CombCalcs.Dodge(Speed, this.GetType().Name.ToString()))
             {
                 return;
             }
 
-            AttackEffectivenes(damage);
+            totalDamage = CombCalcs.AttackEffectiveness(Defense, damage, Speed);
+
             if(totalDamage < 0)
             {
                 totalDamage = 0;
@@ -117,21 +73,6 @@ namespace Animal_Combat
         public void Die()
         {
             Console.WriteLine($"{this.GetType().Name} has died.");
-        }
-
-        //Roll for critical strike
-        public int CriticalStrike()
-        {
-            criticalStrike = Random.RandomNumber(0, 10);
-
-            if (criticalStrike > 5)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Critical strike!");
-                Console.ResetColor();
-                return criticalStrike;
-            }
-            else return 0;
         }
 
         public enum AttackType
