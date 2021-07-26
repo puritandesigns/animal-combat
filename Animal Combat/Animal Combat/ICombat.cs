@@ -9,6 +9,8 @@ namespace Animal_Combat
         bool IsDead { get;}
 
         void Attack(ICombat combatant);
+
+        //Not sure why this had to be included in the interface
         void TakeDamage(int damage);
     }
 }

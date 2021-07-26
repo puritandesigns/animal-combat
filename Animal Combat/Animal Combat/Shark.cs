@@ -11,9 +11,10 @@ namespace Animal_Combat
         protected override int Defense { get; } = 2;
         protected override AttackType[] AttacksAllowed { get; } = { AttackType.Bite};
 
+
         public Shark(Arena _arena) : base(_arena)
         {
-
+            typeOfMove = MovementType.swim;
         }
 
         //Is There a better way to do this??
@@ -21,18 +22,18 @@ namespace Animal_Combat
         {
             switch(arena.CurrentArena)
             {
-                case Arena.ArenaType.Forest:
+                case Arena.ArenaType.forest:
                     Speed -= 2;
                     break;
-                case Arena.ArenaType.Ocean:
+                case Arena.ArenaType.ocean:
                     Speed += 3;
                     break;
-                case Arena.ArenaType.Grasslands:
+                case Arena.ArenaType.grasslands:
                     break;
-                case Arena.ArenaType.Swamp:
+                case Arena.ArenaType.swamp:
                     Speed += 1;
                     break;
-                case Arena.ArenaType.Mountain:
+                case Arena.ArenaType.mountain:
                     Speed -= 3;
                     break;
             }

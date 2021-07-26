@@ -6,17 +6,37 @@ namespace Animal_Combat
     {
         static void Main(string[] args)
         {
-            Arena arena = new Arena();
-            ICombat human = new Human(arena);
-            ICombat shark = new Shark(arena);
 
-            while(!human.IsDead && !shark.IsDead)
+            CombatantFactory fighterFactory = new CombatantFactory();
+            ICombat player = null;
+
+            Console.WriteLine("****Choose Your arena****");
+            Console.WriteLine("Forest, Ocean, Grass, Swamp, or Mountain:  \n");
+            string arenaType = Console.ReadLine();
+
+            Arena arena = new Arena(arenaType.ToLower());
+
+            Console.WriteLine("Choose Your fighter!");
+            string combatantType = Console.ReadLine();
+            player = fighterFactory.makeCombatant(combatantType.ToLower(), arena);
+
+
+            //TODO: Randomly choose opponent
+            ICombat opponent = new Shark(arena);
+
+
+            if(player != null && opponent != null)
             {
-                human.Attack(shark);
-                shark.Attack(human);
+                while(!player.IsDead && !opponent.IsDead)
+                {
+                    player.Attack(opponent);
+                    opponent.Attack(player);
+                }
             }
-
-
+            else
+            {
+                Console.WriteLine("No player selected.");
+            }
         }
     }
 }

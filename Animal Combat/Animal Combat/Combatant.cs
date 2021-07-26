@@ -15,6 +15,7 @@ namespace Animal_Combat
         public bool IsDead => Health <= 0;
         public AttackType CurrentAttack { get; set; }
         protected abstract AttackType[] AttacksAllowed { get; }
+        protected MovementType typeOfMove;
 
         private static int criticalStrike;
         private static int totalDamage;
@@ -140,6 +141,13 @@ namespace Animal_Combat
             Bite,
             Kick,
             Grab
+        }
+
+        public enum MovementType
+        {
+            swim,
+            walk,
+            fly
         }
 
         public void printDotAnimation(int timer = 10)

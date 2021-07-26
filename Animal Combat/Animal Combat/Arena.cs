@@ -8,23 +8,23 @@ namespace Animal_Combat
     {
         public ArenaType CurrentArena;
 
-        public Arena()
+        public Arena(string arenaType)
         {
-            ChooseArenaType();
+            ChooseArenaType(arenaType);
         }
 
         public enum ArenaType
         {
-            Forest,
-            Ocean,
-            Grasslands,
-            Swamp,
-            Mountain
+            forest,
+            ocean,
+            grasslands,
+            swamp,
+            mountain
         }
 
-        public void ChooseArenaType()
+        public void ChooseArenaType(string arenaType)
         {
-            CurrentArena = (ArenaType)Random.RandomNumber(0, 4);
+            CurrentArena = (ArenaType)Enum.Parse(typeof(ArenaType), arenaType);
             Console.BackgroundColor = ConsoleColor.Blue;
             Console.WriteLine($"Welcome to the {CurrentArena}.\n\n");
             Console.ResetColor();
