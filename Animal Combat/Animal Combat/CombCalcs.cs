@@ -28,9 +28,9 @@ namespace Animal_Combat
         }
 
         //Is There a better way to do this??
-        public static int SetSpeed(Arena arena, string moveType)
+        public static int SetSpeed(Arena arena, string baseMoveType)
         {
-            if(moveType == "walk")
+            if(baseMoveType == "walk")
             {
                 switch (arena.CurrentArena)
                 {
@@ -48,7 +48,7 @@ namespace Animal_Combat
                         return 0;
                 }
             }
-            else if(moveType == "swim")
+            else if(baseMoveType == "swim")
             {
                 switch (arena.CurrentArena)
                 {
