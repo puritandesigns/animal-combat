@@ -10,36 +10,33 @@ namespace Animal_Combat
         protected abstract int Health { get; set; }
         protected abstract int Strength { get; }
         protected abstract int Defense { get; }
-        protected int Speed { get; set; }
+        protected int Speed { get; set; } = 5;
         protected int MaxDamage { get; set; }
         public bool IsDead => Health <= 0;
         public AttackType CurrentAttack { get; set; }
         protected abstract AttackType[] AttacksAllowed { get; }
-        protected MovementType typeOfMove;
+        protected BaseMovementType typeOfMove;
 
         private static int criticalStrike;
         private static int totalDamage;
 
-        protected Arena arena;
+        public Arena arena;
 
         public Combatant(Arena _arena)
         {
             arena = _arena;
-            //TODO: Set speed with static method in CombCalcs
+            //Set speed with static method in CombCalcs
+            Speed += CombCalcs.SetSpeed(arena, typeOfMove.ToString());
         }
 
         public void Attack(ICombat combatant)
         {
             ChooseAttackType();
             MaxDamage = CombCalcs.SetMaxDamage(CurrentAttack.ToString());
-            criticalStrike = CombCalcs.CriticalStrike();
             Console.Write($"{this.GetType().Name} attacks with {CurrentAttack}");
             printDotAnimation();
-
-            combatant.TakeDamage(MaxDamage + criticalStrike);
+            combatant.TakeDamage(MaxDamage +  CombCalcs.CheckCriticalStrike());
         }
-
-        public abstract void SetSpeed(Arena arena);
 
         //Randomly choosing from allowed attacks
         public void ChooseAttackType()
@@ -47,14 +44,15 @@ namespace Animal_Combat
             CurrentAttack = AttacksAllowed[Random.RandomNumber(0, AttacksAllowed.Length)];
         }
 
+        //TODO: Fix critical strike to calculate only if dodge is unsuccessful
         public void TakeDamage(int damage)
         {
-            if (CombCalcs.Dodge(Speed, this.GetType().Name.ToString()))
+            if (CombCalcs.CheckDodge(Speed, this.GetType().Name.ToString()))
             {
                 return;
             }
 
-            totalDamage = CombCalcs.AttackEffectiveness(Defense, damage, Speed);
+            totalDamage = CombCalcs.CheckAttackEffectiveness(Defense, damage, Speed);
 
             if(totalDamage < 0)
             {
@@ -84,7 +82,7 @@ namespace Animal_Combat
             Grab
         }
 
-        public enum MovementType
+        public enum BaseMovementType
         {
             swim,
             walk,

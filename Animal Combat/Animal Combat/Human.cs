@@ -13,30 +13,7 @@ namespace Animal_Combat
 
         public Human(Arena _arena) : base(_arena)
         {
-            typeOfMove = MovementType.walk;
-        }
-
-        //Is There a better way to do this??
-        public override void SetSpeed(Arena arena)
-        {
-            switch (arena.CurrentArena)
-            {
-                case Arena.ArenaType.forest:
-                    Speed += 2;
-                    break;
-                case Arena.ArenaType.ocean:
-                    Speed -= 3;
-                    break;
-                case Arena.ArenaType.grasslands:
-                    Speed += 2;
-                    break;
-                case Arena.ArenaType.swamp:
-                    Speed -= 2;
-                    break;
-                case Arena.ArenaType.mountain:
-                    Speed += 1;
-                    break;
-            }
+            typeOfMove = BaseMovementType.walk;
         }
     }
 }

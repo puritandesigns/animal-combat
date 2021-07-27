@@ -12,7 +12,7 @@ namespace Animal_Combat
             Arena arena = null;
 
             Console.WriteLine("****Choose Your arena****");
-            Console.WriteLine("Forest, Ocean, Grass, Swamp, or Mountain:  \n");
+            Console.WriteLine("Forest, Ocean, Grassland, Swamp, or Mountain:  \n");
             string arenaType = Console.ReadLine();
 
             arena = new Arena(arenaType.ToLower());

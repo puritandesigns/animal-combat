@@ -27,8 +27,53 @@ namespace Animal_Combat
             }
         }
 
+        //Is There a better way to do this??
+        public static int SetSpeed(Arena arena, string moveType)
+        {
+            if(moveType == "walk")
+            {
+                switch (arena.CurrentArena)
+                {
+                    case Arena.ArenaType.forest:
+                        return 2;
+                    case Arena.ArenaType.ocean:
+                        return -3;
+                    case Arena.ArenaType.grassland:
+                        return 2;
+                    case Arena.ArenaType.swamp:
+                        return -2;
+                    case Arena.ArenaType.mountain:
+                        return 1;
+                    default:
+                        return 0;
+                }
+            }
+            else if(moveType == "swim")
+            {
+                switch (arena.CurrentArena)
+                {
+                    case Arena.ArenaType.forest:
+                        return -2;
+                    case Arena.ArenaType.ocean:
+                        return 3;
+                    case Arena.ArenaType.grassland:
+                        return -3;
+                    case Arena.ArenaType.swamp:
+                        return 1;
+                    case Arena.ArenaType.mountain:
+                        return -3;
+                    default:
+                        return 0;
+                }
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
         //Set dodge based on speed
-        public static bool Dodge(int speed, string fighterName)
+        public static bool CheckDodge(int speed, string fighterName)
         {
             if (Random.RandomNumber(0, speed) > 2)
             {
@@ -39,18 +84,18 @@ namespace Animal_Combat
         }
 
         //Set defend based on defense
-        public static int Defend(int defense, int speed)
+        public static int CheckDefend(int defense, int speed)
         {
             return Random.RandomNumber(defense - speed, defense);
         }
 
-        public static int AttackEffectiveness(int defense, int damage, int speed)
+        public static int CheckAttackEffectiveness(int defense, int damage, int speed)
         {
-            return Random.RandomNumber(speed, damage) - Defend(defense, speed);
+            return Random.RandomNumber(speed, damage) - CheckDefend(defense, speed);
         }
 
         //Roll for critical strike
-        public static int CriticalStrike()
+        public static int CheckCriticalStrike()
         {
             int criticalStrike = Random.RandomNumber(0, 10);
 

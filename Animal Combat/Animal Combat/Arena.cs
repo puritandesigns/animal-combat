@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Animal_Combat
 {
-    class Arena
+    public class Arena
     {
         public ArenaType CurrentArena;
 
@@ -17,7 +17,7 @@ namespace Animal_Combat
         {
             forest,
             ocean,
-            grasslands,
+            grassland,
             swamp,
             mountain
         }
