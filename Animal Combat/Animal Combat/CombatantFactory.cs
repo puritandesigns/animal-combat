@@ -11,11 +11,11 @@ namespace Animal_Combat
 
             //TODO: Change to switch statement
             //TODO: Validate newCombatant
-            if (newCombatant.ToLower().Equals("shark"))
+            if (newCombatant.Equals("shark"))
             {
                 return new Shark(arena);
             }
-            else if(newCombatant.ToLower().Equals("human"))
+            else if(newCombatant.Equals("human"))
             {
                 return new Human(arena);
             }

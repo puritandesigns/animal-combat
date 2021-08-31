@@ -30,20 +30,21 @@ namespace Animal_Combat
 
         public void Attack(ICombat combatant)
         {
+            //TODO: Allow player to choose their attack type
             ChooseAttackType();
             MaxDamage = CombCalcs.SetMaxDamage(CurrentAttack.ToString());
             Console.Write($"{this.GetType().Name} attacks with {CurrentAttack}");
             printDotAnimation();
+
+            //TODO: Fix critical strike to calculate only if dodge is unsuccessful
             combatant.TakeDamage(MaxDamage +  CombCalcs.CheckCriticalStrike());
         }
 
-        //Randomly choosing from allowed attacks
-        public void ChooseAttackType()
+        private void ChooseAttackType()
         {
             CurrentAttack = AttacksAllowed[Random.RandomNumber(0, AttacksAllowed.Length)];
         }
 
-        //TODO: Fix critical strike to calculate only if dodge is unsuccessful
         public void TakeDamage(int damage)
         {
             if (CombCalcs.CheckDodge(Speed, this.GetType().Name.ToString()))
@@ -67,7 +68,7 @@ namespace Animal_Combat
             }
         }
 
-        public void Die()
+        private void Die()
         {
             Console.WriteLine($"{this.GetType().Name} has died.");
         }
@@ -88,6 +89,7 @@ namespace Animal_Combat
             fly
         }
 
+        //TODO: Move this somewhere else
         public void printDotAnimation(int timer = 10)
         {
             for (var x = 0; x < timer; x++)

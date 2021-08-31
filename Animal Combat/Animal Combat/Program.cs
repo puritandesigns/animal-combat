@@ -30,18 +30,12 @@ namespace Animal_Combat
             //TODO: Randomly choose opponent
             ICombat opponent = new Shark(arena);
 
-            //TODO: Fix shark attacking after it has died
-            if(player != null && opponent != null)
+            
+            //TODO: Fix opponent attacking after it has died
+            while(!player.IsDead && !opponent.IsDead)
             {
-                while(!player.IsDead && !opponent.IsDead)
-                {
-                    player.Attack(opponent);
-                    opponent.Attack(player);
-                }
-            }
-            else
-            {
-                Console.WriteLine("No player selected.");
+                player.Attack(opponent);
+                opponent.Attack(player);
             }
         }
     }

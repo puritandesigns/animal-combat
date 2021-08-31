@@ -6,7 +6,6 @@ namespace Animal_Combat
 {
     public static class CombCalcs
     {
-        //Set max damage based on attack type
         public static int SetMaxDamage(string AttackType)
         {
             switch (AttackType)
@@ -22,7 +21,7 @@ namespace Animal_Combat
                 case "Grab":
                     return 8;
                 default:
-                    Console.WriteLine("No attack type.");
+                    Console.WriteLine("No attack type set.");
                     return 0;
             }
         }
@@ -65,6 +64,7 @@ namespace Animal_Combat
                         return 0;
                 }
             }
+
             //TODO: Add fly base move type
 
             else
@@ -73,9 +73,9 @@ namespace Animal_Combat
             }
         }
 
-        //Set dodge based on speed
         public static bool CheckDodge(int speed, string fighterName)
         {
+            //TODO: Remove hardcoded chance-to-dodge value
             if (Random.RandomNumber(0, speed) > 2)
             {
                 Console.WriteLine($"{fighterName} dodged attack!\n");
@@ -84,18 +84,20 @@ namespace Animal_Combat
             return false;
         }
 
-        //Set defend based on defense
         public static int CheckDefend(int defense, int speed)
         {
+            //TODO: Fix calculations
             return Random.RandomNumber(defense - speed, defense);
         }
 
+
         public static int CheckAttackEffectiveness(int defense, int damage, int speed)
-        {
+        {        
+            //TODO: Fix calculations
             return Random.RandomNumber(speed, damage) - CheckDefend(defense, speed);
         }
 
-        //Roll for critical strike
+
         public static int CheckCriticalStrike()
         {
             int criticalStrike = Random.RandomNumber(0, 10);
