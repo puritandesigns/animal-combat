@@ -8,8 +8,10 @@ namespace Animal_Combat
     {
         public ICombat makeCombatant(string newCombatant, Arena arena)
         {
+
             //TODO: Change to switch statement
-            if(newCombatant.ToLower().Equals("shark"))
+            //TODO: Validate newCombatant
+            if (newCombatant.ToLower().Equals("shark"))
             {
                 return new Shark(arena);
             }
@@ -18,7 +20,7 @@ namespace Animal_Combat
                 return new Human(arena);
             }
             else
-            {
+            {            
                 return null;
             }
         }

@@ -27,12 +27,8 @@ namespace Animal_Combat
             string combatantType = Console.ReadLine();
             player = fighterFactory.makeCombatant(combatantType.ToLower(), arena);
 
-
-
             //TODO: Randomly choose opponent
             ICombat opponent = new Shark(arena);
-
-
 
             //TODO: Fix shark attacking after it has died
             if(player != null && opponent != null)

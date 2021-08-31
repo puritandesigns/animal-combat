@@ -27,7 +27,6 @@ namespace Animal_Combat
             }
         }
 
-        //Is There a better way to do this??
         public static int SetSpeed(Arena arena, string baseMoveType)
         {
             if(baseMoveType == "walk")

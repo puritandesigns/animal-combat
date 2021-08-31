@@ -24,10 +24,13 @@ namespace Animal_Combat
 
         public void ChooseArenaType(string arenaType)
         {
+            //TODO: Validate arenaType
             CurrentArena = (ArenaType)Enum.Parse(typeof(ArenaType), arenaType);
+
             Console.BackgroundColor = ConsoleColor.Blue;
             Console.WriteLine($"Welcome to the {CurrentArena}.\n\n");
             Console.ResetColor();
+
         }
     }
 }
