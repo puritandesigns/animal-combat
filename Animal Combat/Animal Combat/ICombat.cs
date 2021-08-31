@@ -10,7 +10,6 @@ namespace Animal_Combat
 
         void Attack(ICombat combatant);
 
-        //Not sure why this had to be included in the interface
         void TakeDamage(int damage);
     }
 }

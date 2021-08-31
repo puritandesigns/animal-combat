@@ -17,7 +17,6 @@ namespace Animal_Combat
         protected abstract AttackType[] AttacksAllowed { get; }
         protected BaseMovementType typeOfMove;
 
-        private static int criticalStrike;
         private static int totalDamage;
 
         public Arena arena;

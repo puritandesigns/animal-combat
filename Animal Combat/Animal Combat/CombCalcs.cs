@@ -66,6 +66,8 @@ namespace Animal_Combat
                         return 0;
                 }
             }
+            //TODO: Add fly base move type
+
             else
             {
                 return 0;

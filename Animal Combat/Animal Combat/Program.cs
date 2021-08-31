@@ -11,13 +11,15 @@ namespace Animal_Combat
             ICombat player = null;
             Arena arena = null;
 
+            //TODO: Extract fighter and arena choice to method
+
             Console.WriteLine("****Choose Your arena****");
             Console.WriteLine("Forest, Ocean, Grassland, Swamp, or Mountain:  \n");
             string arenaType = Console.ReadLine();
 
             arena = new Arena(arenaType.ToLower());
 
-            //TODO: Do checks for null or incorrect arena types
+            //TODO: Do checks for null or incorrect arena and combatant types
          
 
             Console.WriteLine("****Choose Your fighter****");
@@ -25,13 +27,14 @@ namespace Animal_Combat
             string combatantType = Console.ReadLine();
             player = fighterFactory.makeCombatant(combatantType.ToLower(), arena);
 
-            //TODO: Do checks for null or incorrect combatant types
 
 
             //TODO: Randomly choose opponent
             ICombat opponent = new Shark(arena);
 
 
+
+            //TODO: Fix shark attacking after it has died
             if(player != null && opponent != null)
             {
                 while(!player.IsDead && !opponent.IsDead)
