@@ -11,8 +11,7 @@ namespace Animal_Combat
             ICombat player = null;
             Arena arena = null;
 
-            //TODO: Extract fighter and arena choice to method
-
+            //TODO: Extract fighter and arena choices to method
             Console.WriteLine("****Choose Your arena****");
             Console.WriteLine("Forest, Ocean, Grassland, Swamp, or Mountain:  \n");
             string arenaType = Console.ReadLine();
